@@ -32,7 +32,7 @@ Our repository contains one or more "example-" folders with source that should b
 That's how we scope and test the build template.
 
 First, clone or fork this repository.
-As promised, being vendor neutral, to [kubectl apply]() you need a [Knative cluster]().
+Being vendor neutral as promised, to `kubectl apply` the example you need a [Knative cluster](https://github.com/knative/docs/blob/master/install/README.md).
 
 However, two aspects are not vendor neutral:
 
@@ -43,7 +43,9 @@ The examples here use the suffix `example.com` and prefix `registry.example.com`
 
 ### Using Riff's invoker as Node.js runtime
 
-We evaluated [Kubeless](), [Buildpack](), and [Riff]() for this example.
+We evaluated [Kubeless](https://kubeless.io/),
+[Buildpack](https://docs.cloudfoundry.org/buildpacks/),
+and [Riff](https://projectriff.io/invokers/) for this example.
 Our conclusions in essence:
 
  * Kubeless has quite a bit of legacy.
@@ -57,8 +59,8 @@ module.exports = x => x * x;
 ```
 
 Our example function will depend on an additional source file and a 3rd party library.
-For production builds we adhere to new-ish [npm]() conventions,
-using `package-lock.json` with [npm ci]().
+For production builds we adhere to new-ish [npm](https://blog.npmjs.org/post/171556855892/introducing-npm-ci-for-faster-more-reliable) conventions,
+using `package-lock.json` with [npm ci](https://docs.npmjs.com/cli/ci).
 
 ## Source-to-Revision
 

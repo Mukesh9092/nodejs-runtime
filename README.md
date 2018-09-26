@@ -119,11 +119,12 @@ kubectl describe route.serving.knative.dev/runtime-nodejs-example-module
 ```
 
 To test the route through the cluster's internal name
+
 ```
-kubectl run knative-test-client --image=gcr.io/cloud-builders/curl -- --connect-timeout 3 --retry 10 -vSL http://runtime-nodejs-example-module.default.svc.cluster.local/
-kubectl wait pod -l run=knative-test-client --for=condition=ready
-kubectl logs -l run=knative-test-client
-kubectl delete deployment/knative-test-client
+kubectl run knative-test-client --image=gcr.io/cloud-builders/curl --restart=Never -- --connect-timeout 3 --retry 10 -vSL http://runtime-nodejs-example-module.default.svc.cluster.local/
+kubectl wait pod knative-test-client --for=condition=ready
+kubectl logs -f knative-test-client
+kubectl delete pod/knative-test-client
 ```
 
 ## TODOs

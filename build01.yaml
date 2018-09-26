@@ -5,6 +5,7 @@ metadata:
   namespace: default
 spec:
   build:
+    serviceAccountName: build
     source:
       git:
         url: https://github.com/solsson/docker-riff.git

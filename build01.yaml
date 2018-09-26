@@ -7,16 +7,18 @@ spec:
   build:
     source:
       git:
-        url: https://github.com/jrandom/myrepo
-        commit: master
+        url: https://github.com/solsson/docker-riff.git
+        revision: master
     template:
       name: runtime-nodejs
-      namespace: build-templates
+      # probably to be replaced with ClusterBuildTemplate: namespace: build-templates
       arguments:
       - name: _IMAGE
-        value: gcr.io/...  # destination for image
+        value: registry.munu.io/solsson/runtime-nodejs-example-module
       - name: _ENTRY_POINT
-        value: index  # if function, language dependent entrypoint
+        value: todo-select-language-dependent-entrypoint
+      - name: DIRECTORY
+        value: ./test-nodejs-packagelock
 
   revisionTemplate:
     metadata:
@@ -27,18 +29,11 @@ spec:
         # image either provided as pre-built container, or built by Knative Serving from
         # source. When built by knative, set to the same as build template, e.g.
         # build.template.arguments[_IMAGE], as the "promise" of a future build.
-        image: gcr.io/...
+        image: registry.munu.io/solsson/runtime-nodejs-example-module
         command: ['run']
         args: []
         env:
-        # list of environment vars
         - name: FOO
           value: bar
         - name: HELLO
           value: world
-        - ...
-        livenessProbe: ...  # Optional
-        readinessProbe: ...  # Optional
-      containerConcurrency: ...
-      timeoutSeconds: ...
-      serviceAccountName: ...  # Name of the service account the code should run as.

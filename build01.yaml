@@ -1,45 +1,16 @@
 apiVersion: serving.knative.dev/v1alpha1
 kind: Configuration
 metadata:
-  name: my-service
+  name: runtime-nodejs-example-module
   namespace: default
-  labels:
-    knative.dev/service: ...  # name of the Service automatically filled in
-    knative.dev/route: ...  # name of the Route automatically filled in
-  # system generated meta
-  uid: ...
-  resourceVersion: ...  # used for optimistic concurrency control
-  creationTimestamp: ...
-  generation: ...  # updated only when spec changes; used by observedGeneration
-  selfLink: ...
-  ...
 spec:
-  # +optional. composable Build spec, if omitted provide image directly
-  build:  # This is a build.knative.dev/v1alpha1.BuildTemplateSpec
+  build:
     source:
-      # oneof git|gcs|custom:
-
-      # +optional.
       git:
         url: https://github.com/jrandom/myrepo
-        commit: deadbeef  # Or branch, tag, ref
-
-      # +optional. A zip archive or a manifest file in Google Cloud
-      # Storage. A manifest file is a file containing a list of file
-      # paths, backing URLs, and sha checksums. Manifest may be a more
-      # efficient mechanism for a client to perform partial upload.
-      gcs:
-        location: https://...
-        type: 'archive'  # Or 'manifest'
-
-      # +optional. Custom specifies a container which will be run as
-      # the first build step to fetch the source.
-      custom:  # is a core.v1.Container
-        image: gcr.io/cloud-builders/git:latest
-        args: [ "clone", "https://...", "other-place" ]
-
-    template:  # build template reference and arguments.
-      name: go_1_9_fn  # builder name. Functions may have custom builders
+        commit: master
+    template:
+      name: runtime-nodejs
       namespace: build-templates
       arguments:
       - name: _IMAGE
@@ -47,23 +18,15 @@ spec:
       - name: _ENTRY_POINT
         value: index  # if function, language dependent entrypoint
 
-  revisionTemplate:  # template for building Revision
-    metadata: ...
+  revisionTemplate:
+    metadata:
       labels:
-        knative.dev/type: "function"  # One of "function" or "app"
-    spec:  # knative.RevisionTemplateSpec. Copied to a new revision
-
-      # +optional. if rolling back, the client may set this to the
-      #   previous  revision's build to avoid triggering a rebuild
-      buildName: ...
-
-      # is a core.v1.Container; some fields not allowed, such as resources, ports
+        knative.dev/type: "function"
+    spec:
       container:
         # image either provided as pre-built container, or built by Knative Serving from
         # source. When built by knative, set to the same as build template, e.g.
         # build.template.arguments[_IMAGE], as the "promise" of a future build.
-        # If buildName is provided, it is expected that this image will be
-        # present when the referenced build is complete.
         image: gcr.io/...
         command: ['run']
         args: []
@@ -76,14 +39,6 @@ spec:
         - ...
         livenessProbe: ...  # Optional
         readinessProbe: ...  # Optional
-
-      # +optional concurrency strategy.  Defaults to Multi.
-      # Deprecated in favor of ContainerConcurrency.
-      concurrencyModel: ...
-      # +optional max request concurrency per instance.  Defaults to `0` (system decides)
-      # when concurrencyModel is unspecified as well.  Defaults to `1` when
-      # concurrencyModel `Single` is provided.
       containerConcurrency: ...
-      # +optional. max time the instance is allowed for responding to a request
       timeoutSeconds: ...
       serviceAccountName: ...  # Name of the service account the code should run as.

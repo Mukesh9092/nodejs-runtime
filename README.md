@@ -108,7 +108,7 @@ kubectl logs -l serving.knative.dev/configuration=runtime-nodejs-example-module 
 List your revisions:
 
 ```bash
-kubectl get revision.serving.knative.de
+kubectl get revision.serving.knative.dev
 ```
 
 Create a route and use `describe` to see your public and local URL.

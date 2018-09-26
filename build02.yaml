@@ -15,7 +15,7 @@ spec:
       # probably to be replaced with ClusterBuildTemplate: namespace: build-templates
       arguments:
       - name: _IMAGE
-        value: knative-local-registry:5000/solsson/runtime-nodejs-example-module
+        value: knative-local-registry:5000/runtime-examples/nodejs-module
       - name: _ENTRY_POINT
         value: todo-select-language-dependent-entrypoint
       - name: DIRECTORY
@@ -30,7 +30,7 @@ spec:
         # image either provided as pre-built container, or built by Knative Serving from
         # source. When built by knative, set to the same as build template, e.g.
         # build.template.arguments[_IMAGE], as the "promise" of a future build.
-        image: knative-local-registry:5000/solsson/runtime-nodejs-example-module
+        image: knative-local-registry:5000/runtime-examples/nodejs-module
         env:
         - name: SALT
           value: Salt02

@@ -124,10 +124,15 @@ To test the route through the cluster's internal name
 kubectl run knative-test-client --image=gcr.io/cloud-builders/curl --restart=Never -- \
   --connect-timeout 3 --retry 10 -vSL \
   -H "Host: runtime-nodejs-example-module.default.example.com" \
+  -H 'Content-Type: text/plain' \
+  -d 'Aguid this!' \
   http://knative-ingressgateway.istio-system.svc.cluster.local/
-kubectl wait pod knative-test-client --for=condition=ready
+kubectl wait pod knative-test-client --for=condition=running
 kubectl logs -f knative-test-client
+echo "If the function call worked your response from curl is the deterministic UUID"
+kubectl logs --tail=1 knative-test-client
 kubectl delete pod/knative-test-client
+
 ```
 
 ## TODOs

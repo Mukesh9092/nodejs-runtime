@@ -8,7 +8,7 @@ spec:
     serviceAccountName: build
     source:
       git:
-        url: https://github.com/solsson/docker-riff.git
+        url: https://github.com/triggermesh/nodejs-runtime.git
         revision: master
     template:
       name: runtime-nodejs
@@ -19,7 +19,7 @@ spec:
       - name: _ENTRY_POINT
         value: todo-select-language-dependent-entrypoint
       - name: DIRECTORY
-        value: ./test-nodejs-packagelock
+        value: ./example-module
 
   revisionTemplate:
     metadata:

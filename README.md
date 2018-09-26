@@ -105,6 +105,19 @@ If your build passes, wait for pods to start. Now your logs are found using:
 kubectl logs -l serving.knative.dev/configuration=runtime-nodejs-example-module -c user-container
 ```
 
+List your revisions:
+
+```bash
+kubectl get revision.serving.knative.de
+```
+
+Create a route and use `describe` to see your public and local URL.
+
+```bash
+kubectl apply -f route01.yaml
+kubectl describe route.serving.knative.dev/runtime-nodejs-example-module
+```
+
 ## TODOs
 
  * Document replacement of registry host, and the service account

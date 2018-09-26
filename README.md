@@ -107,5 +107,4 @@ kubectl logs -l serving.knative.dev/configuration=runtime-nodejs-example-module 
 
 ## TODOs
 
- * Switch to source examples living in this repo
  * Document replacement of registry host, and the service account

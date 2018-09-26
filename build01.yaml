@@ -32,7 +32,5 @@ spec:
         # build.template.arguments[_IMAGE], as the "promise" of a future build.
         image: registry.munu.io/solsson/runtime-nodejs-example-module
         env:
-        - name: FOO
-          value: bar
-        - name: HELLO
-          value: world
+        - name: SALT
+          value: Salt01

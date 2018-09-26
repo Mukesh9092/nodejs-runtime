@@ -31,8 +31,6 @@ spec:
         # source. When built by knative, set to the same as build template, e.g.
         # build.template.arguments[_IMAGE], as the "promise" of a future build.
         image: registry.munu.io/solsson/runtime-nodejs-example-module
-        command: ['run']
-        args: []
         env:
         - name: FOO
           value: bar

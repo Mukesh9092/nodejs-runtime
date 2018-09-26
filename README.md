@@ -50,10 +50,10 @@ Our conclusions in essence:
  * While supporting multiple languages, Buildpack does the build but doesn't actually provide an invoker for your function.
  * Riff's nodejs invoker supports both standalone functions and full Node.js modules.
 
-Hence we settled for riff now, and we think that we can switch runtime. Riff's function model is very simple:
+Hence we settled for riff now, and we think that we can switch runtime. Riff's function model is very simple, as in this square example:
 
 ```nodejs
-
+module.exports = x => x * x;
 ```
 
 Our example function will depend on an additional source file and a 3rd party library.

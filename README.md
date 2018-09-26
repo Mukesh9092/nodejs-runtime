@@ -127,12 +127,13 @@ kubectl run knative-test-client --image=gcr.io/cloud-builders/curl --restart=Nev
   -H 'Content-Type: text/plain' \
   -d 'Aguid this!' \
   http://knative-ingressgateway.istio-system.svc.cluster.local/
-kubectl wait pod knative-test-client --for=condition=running
+kubectl wait pod knative-test-client --for=condition=initialized --timeout=10s
+kubectl wait pod knative-test-client --for=condition=completed --timeout=5s
 kubectl logs -f knative-test-client
-echo "If the function call worked your response from curl is the deterministic UUID"
+echo "If the function call worked your response from curl is the deterministic UUID:"
 kubectl logs --tail=1 knative-test-client
+echo ""
 kubectl delete pod/knative-test-client
-
 ```
 
 ## TODOs

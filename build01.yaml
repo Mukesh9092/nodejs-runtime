@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   build:
-    serviceAccountName: build
+    #serviceAccountName: build
     source:
       git:
         url: https://github.com/triggermesh/nodejs-runtime.git
@@ -15,7 +15,7 @@ spec:
       # probably to be replaced with ClusterBuildTemplate: namespace: build-templates
       arguments:
       - name: _IMAGE
-        value: registry.munu.io/solsson/runtime-nodejs-example-module
+        value: knative-local-registry:5000/solsson/runtime-nodejs-example-module
       - name: _ENTRY_POINT
         value: todo-select-language-dependent-entrypoint
       - name: DIRECTORY
@@ -30,7 +30,7 @@ spec:
         # image either provided as pre-built container, or built by Knative Serving from
         # source. When built by knative, set to the same as build template, e.g.
         # build.template.arguments[_IMAGE], as the "promise" of a future build.
-        image: registry.munu.io/solsson/runtime-nodejs-example-module
+        image: knative-local-registry:5000/solsson/runtime-nodejs-example-module
         env:
         - name: SALT
           value: Salt01

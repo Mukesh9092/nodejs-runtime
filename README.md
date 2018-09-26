@@ -108,7 +108,7 @@ kubectl logs -l serving.knative.dev/configuration=runtime-nodejs-example-module 
 List your revisions:
 
 ```bash
-kubectl get revision.serving.knative.de
+kubectl get revision.serving.knative.dev
 ```
 
 Create a route and use `describe` to see your public and local URL.
@@ -121,9 +121,18 @@ kubectl describe route.serving.knative.dev/runtime-nodejs-example-module
 To test the route through the cluster's internal name
 
 ```
-kubectl run knative-test-client --image=gcr.io/cloud-builders/curl --restart=Never -- --connect-timeout 3 --retry 10 -vSL http://runtime-nodejs-example-module.default.svc.cluster.local/
-kubectl wait pod knative-test-client --for=condition=ready
+kubectl run knative-test-client --image=gcr.io/cloud-builders/curl --restart=Never -- \
+  --connect-timeout 3 --retry 10 -vSL \
+  -H "Host: runtime-nodejs-example-module.default.example.com" \
+  -H 'Content-Type: text/plain' \
+  -d 'Aguid this!' \
+  http://knative-ingressgateway.istio-system.svc.cluster.local/
+kubectl wait pod knative-test-client --for=condition=initialized --timeout=10s
+kubectl wait pod knative-test-client --for=condition=completed --timeout=5s
 kubectl logs -f knative-test-client
+echo "If the function call worked your response from curl is the deterministic UUID:"
+kubectl logs --tail=1 knative-test-client
+echo ""
 kubectl delete pod/knative-test-client
 ```
 

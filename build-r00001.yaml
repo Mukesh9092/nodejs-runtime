@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   build:
-    #serviceAccountName: build
+    serviceAccountName: knative-build
     source:
       git:
         url: https://github.com/triggermesh/nodejs-runtime.git

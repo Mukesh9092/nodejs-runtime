@@ -14,8 +14,6 @@ Source-to-URL means the end user need only to know how to:
  * Decide which revision(s) that should receive traffic.
  * Hit the public URL.
 
-_Note that the examples use `example.com` as the host for your ingress._
-
 ## Chosing a runtime
 
 Given that your function is a piece of code, possibly importing other pieces and libraries,
@@ -39,11 +37,20 @@ Being vendor neutral as promised, to `kubectl apply` the example you need a [Kna
 However, two aspects are not vendor neutral:
 
  * The domain of the URLs that point to your cluster.
+   - The example value is _`example.com`_.
  * The image URLs, your registry for runtime container images.
+   - The example value is _`knative-local-registry:5000`_.
 
-The examples here use the suffix `example.com` and prefix `registry.example.com`, respectively.
+Treat these example values as placeholders and replace them with the values from your cluster.
 
-### Using Riff's invoker as Node.js runtime
+### The `knative-build` service account
+
+As authenticated container registries is the norm,
+the build manifests here include `serviceAccountName: knative-build` in order to support authentication.
+Use a [stub](https://github.com/triggermesh/knative-local-registry#use-a-service-account-for-build) if you don't need authentication,
+or simply remove the property.
+
+## Using Riff's invoker as Node.js runtime
 
 We evaluated [Kubeless](https://kubeless.io/),
 [Buildpack](https://docs.cloudfoundry.org/buildpacks/),
@@ -54,7 +61,8 @@ Our conclusions in essence:
  * While supporting multiple languages, Buildpack does the build but doesn't actually provide an invoker for your function.
  * Riff's nodejs invoker supports both standalone functions and full Node.js modules.
 
-Hence we settled for riff now, and we think that we can switch runtime. Riff's function model is very simple, as in this square example:
+Hence we settled for riff now, but the lock-in is minimal.
+Riff's function model is simple, as in this square example:
 
 ```nodejs
 module.exports = x => x * x;
@@ -64,22 +72,22 @@ Our example function will depend on an additional source file and a 3rd party li
 For production builds we adhere to new-ish [npm](https://blog.npmjs.org/post/171556855892/introducing-npm-ci-for-faster-more-reliable) conventions,
 using `package-lock.json` with [npm ci](https://docs.npmjs.com/cli/ci).
 
-## Source-to-Revision
+## Source-to-URL workflow using kubectl
 
-... or -to-container-image.
+First create the build template
 
-With a Kubernetes background you can actually dive right into:
-https://github.com/knative/serving/blob/v0.1.1/docs/spec/spec.md#configuration
+```bash
+kubectl apply -f knative-build-template.yaml
+```
 
-
-
-## Workflow using kubectl
+... and then the build
 
 ```bash
 kubectl apply -f build-r00001.yaml
 ```
 
 List configurations and their age:
+
 ```bash
 kubectl get configuration.serving.knative.dev
 ```
@@ -87,6 +95,7 @@ kubectl get configuration.serving.knative.dev
 Optionally use `kubectl describe configuration.serving.knative.dev/[name from list]` to see status.
 
 List the builds that have been generated:
+
 ```bash
 kubectl get build.build.knative.dev
 ```
@@ -170,7 +179,3 @@ kubectl run -i -t knative-test-client --image=gcr.io/cloud-builders/curl --resta
   -s -w '\n' \
   http://knative-ingressgateway.istio-system.svc.cluster.local/?test=[1-20]
 ```
-
-## TODOs
-
- * Document replacement of registry host, and the service account

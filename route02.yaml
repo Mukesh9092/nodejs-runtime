@@ -1,0 +1,11 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Route
+metadata:
+  name: runtime-nodejs-example-module # The name of our route; appears in the URL to access the app
+  namespace: default # The namespace we're working in; also appears in the URL to access the app
+spec:
+  traffic:
+  - revisionName: runtime-nodejs-example-module-00001
+    percent: 50
+  - revisionName: runtime-nodejs-example-module-00003
+    percent: 50

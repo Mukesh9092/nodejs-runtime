@@ -136,6 +136,35 @@ echo ""
 kubectl delete pod/knative-test-client
 ```
 
+### Build your next revision and route traffic
+
+The function source is fixed in this example,
+but its output can be altered using the SALT env.
+To Knative a new image digest and a new env value
+are both valid causes for generating a new Revison.
+Hence we trigger an almost identical build.
+
+```
+kubectl apply -f build02.yaml
+```
+
+There's an example route which directs 50% of the traffic to each of the two revisions.
+
+```
+kubectl apply -f route02.yaml
+```
+
+Now we can test repeated calls:
+
+```
+kubectl run -i -t knative-test-client --image=gcr.io/cloud-builders/curl --restart=Never --rm -- \
+  -H 'Host: runtime-nodejs-example-module.default.example.com' \
+  -H 'Content-Type: text/plain' \
+  -d 'Aguid this!' \
+  -s -w '\n' \
+  http://knative-ingressgateway.istio-system.svc.cluster.local/?test=[1-20]
+```
+
 ## TODOs
 
  * Document replacement of registry host, and the service account

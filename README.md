@@ -76,7 +76,7 @@ https://github.com/knative/serving/blob/v0.1.1/docs/spec/spec.md#configuration
 ## Workflow using kubectl
 
 ```bash
-kubectl create -f build-r00001.yaml
+kubectl apply -f build-r00001.yaml
 ```
 
 List configurations and their age:

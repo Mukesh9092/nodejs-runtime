@@ -14,6 +14,8 @@ Source-to-URL means the end user need only to know how to:
  * Decide which revision(s) that should receive traffic.
  * Hit the public URL.
 
+_Note that the examples use `example.com` as the host for your ingress._
+
 ## Chosing a runtime
 
 Given that your function is a piece of code, possibly importing other pieces and libraries,
@@ -74,7 +76,7 @@ https://github.com/knative/serving/blob/v0.1.1/docs/spec/spec.md#configuration
 ## Workflow using kubectl
 
 ```bash
-kubectl create -f build01.yaml
+kubectl create -f build-r00001.yaml
 ```
 
 List configurations and their age:
@@ -114,7 +116,7 @@ kubectl get revision.serving.knative.dev
 Create a route and use `describe` to see your public and local URL.
 
 ```bash
-kubectl apply -f route01.yaml
+kubectl apply -f route-r00001.yaml
 kubectl describe route.serving.knative.dev/runtime-nodejs-example-module
 ```
 
@@ -145,13 +147,13 @@ are both valid causes for generating a new Revison.
 Hence we trigger an almost identical build.
 
 ```
-kubectl apply -f build02.yaml
+kubectl apply -f build-r00002.yaml
 ```
 
 There's an example route which directs 50% of the traffic to each of the two revisions.
 
 ```
-kubectl apply -f route02.yaml
+kubectl apply -f route-r00002.yaml
 ```
 
 Now we can test repeated calls:

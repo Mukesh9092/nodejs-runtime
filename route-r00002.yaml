@@ -7,5 +7,5 @@ spec:
   traffic:
   - revisionName: runtime-nodejs-example-module-00001
     percent: 50
-  - revisionName: runtime-nodejs-example-module-00003
+  - revisionName: runtime-nodejs-example-module-00002
     percent: 50

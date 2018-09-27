@@ -101,42 +101,46 @@ kubectl logs -l $SELECTOR -c build-step-dockerfile
 kubectl logs -l $SELECTOR -c build-step-export
 ```
 
-If your build passes, wait for pods to start. Now your logs are found using:
-
-```bash
-kubectl logs -l serving.knative.dev/configuration=runtime-nodejs-example-module -c user-container
-```
-
-List your revisions:
+Now Knative should look up the image digest and produce an exact revision spec:
 
 ```bash
 kubectl get revision.serving.knative.dev
 ```
 
-Create a route and use `describe` to see your public and local URL.
+... and the generated deployment should have the image digest (which Serving looks up) set:
+
+```bash
+kubectl get deploy/runtime-nodejs-example-module-00001-deployment -o=jsonpath='{.spec.template.spec.containers[0].image}{"\n"}'
+```
+
+... and it will bing up a pod. Logs for that are found using:
+
+```bash
+kubectl logs -l serving.knative.dev/configuration=runtime-nodejs-example-module -c user-container
+```
+
+If no pod is brought up you might want to look for error messages in `kubectl get configuration.serving.knative.dev/runtime-nodejs-example-module -o yaml`.
+You might also want to look for pull errors etc in the generated deployment `kubectl describe deploy/runtime-nodejs-example-module-00001-deployment`.
+
+If a pod is running, create a route and use `describe` to see your public and local URL.
 
 ```bash
 kubectl apply -f route-r00001.yaml
 kubectl describe route.serving.knative.dev/runtime-nodejs-example-module
 ```
 
-To test the route through the cluster's internal name
+To test the route through the cluster's internal name.
 
 ```
-kubectl run knative-test-client --image=gcr.io/cloud-builders/curl --restart=Never -- \
-  --connect-timeout 3 --retry 10 -vSL \
-  -H "Host: runtime-nodejs-example-module.default.example.com" \
+kubectl run -i -t knative-test-client --image=gcr.io/cloud-builders/curl --restart=Never --rm -- \
+  -H 'Host: runtime-nodejs-example-module.default.example.com' \
   -H 'Content-Type: text/plain' \
   -d 'Aguid this!' \
+  --connect-timeout 3 --retry 10 -vSL -w '\n' \
   http://knative-ingressgateway.istio-system.svc.cluster.local/
-kubectl wait pod knative-test-client --for=condition=initialized --timeout=10s
-kubectl wait pod knative-test-client --for=condition=completed --timeout=5s
-kubectl logs -f knative-test-client
-echo "If the function call worked your response from curl is the deterministic UUID:"
-kubectl logs --tail=1 knative-test-client
-echo ""
-kubectl delete pod/knative-test-client
 ```
+
+If the function call worked your response from curl is the deterministic UUID.
 
 ### Build your next revision and route traffic
 

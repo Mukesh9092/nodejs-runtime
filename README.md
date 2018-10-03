@@ -43,10 +43,10 @@ However, two aspects are not vendor neutral:
 
 Treat these example values as placeholders and replace them with the values from your cluster.
 
-### The `knative-build` service account
+### The `my-build` service account
 
 As authenticated container registries is the norm,
-the build manifests here include `serviceAccountName: knative-build` in order to support authentication.
+the build manifests here include `serviceAccountName: my-build` in order to support authentication.
 Use a [stub](https://github.com/triggermesh/knative-local-registry#use-a-service-account-for-build) if you don't need authentication,
 or simply remove the property.
 

@@ -39,7 +39,7 @@ However, two aspects are not vendor neutral:
  * The domain of the URLs that point to your cluster.
    - The example value is _`example.com`_.
  * The image URLs, your registry for runtime container images.
-   - The example value is _`knative-local-registry:5000`_.
+   - The example value is _`my-registry.example.com`_.
 
 Treat these example values as placeholders and replace them with the values from your cluster.
 

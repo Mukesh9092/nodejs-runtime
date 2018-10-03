@@ -6,7 +6,7 @@ metadata:
     origin: github.com/triggermesh/nodejs-runtime
 spec:
   parameters:
-  - name: _IMAGE
+  - name: IMAGE
     description: The URI of the image to push, including registry host
   - name: TAG
     description: Tag of the image being pushed
@@ -49,4 +49,4 @@ spec:
     args:
     - --context=/workspace/${DIRECTORY}
     - --dockerfile=/workspace/${DIRECTORY}/Dockerfile
-    - --destination=${_IMAGE}:${TAG}
+    - --destination=${IMAGE}:${TAG}

@@ -53,4 +53,4 @@ spec:
     - --context=/workspace/${DIRECTORY}
     - --dockerfile=/workspace/${DIRECTORY}/Dockerfile
     - --destination=${IMAGE}:${TAG}
-    - --skip_tls_verify=${SKIP_TLS_VERIFY}
+    - --skip-tls-verify=${SKIP_TLS_VERIFY}

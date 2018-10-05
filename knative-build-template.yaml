@@ -17,6 +17,9 @@ spec:
   - name: FUNCTION_NAME
     description: The name of the exported function to put in the runtime (empty to use package.json)
     default: ""
+  - name: SKIP_TLS_VERIFY
+    description: Skip registry TLS verification at push
+    default: "false"
   steps:
   - name: dockerfile
     image: gcr.io/kaniko-project/executor:debug@sha256:5a8d578dc7ff0114daadb20902bf8529f9a2257440d68ac9c6c4b7da98665ca1
@@ -50,3 +53,4 @@ spec:
     - --context=/workspace/${DIRECTORY}
     - --dockerfile=/workspace/${DIRECTORY}/Dockerfile
     - --destination=${IMAGE}:${TAG}
+    - --skip-tls-verify=${SKIP_TLS_VERIFY}

@@ -18,7 +18,7 @@ spec:
     description: The name of the exported function to put in the runtime (empty to use package.json)
     default: ""
   - name: SKIP_TLS_VERIFY
-    description: Skip registry TLS verification at push and for any FROM
+    description: Skip registry TLS verification at push
     default: "false"
   steps:
   - name: dockerfile

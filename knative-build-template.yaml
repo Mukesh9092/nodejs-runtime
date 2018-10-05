@@ -54,3 +54,6 @@ spec:
     - --dockerfile=/workspace/${DIRECTORY}/Dockerfile
     - --destination=${IMAGE}:${TAG}
     - --skip-tls-verify=${SKIP_TLS_VERIFY}
+    env:
+    - name: SSL_CERT_DIR
+      value: /var/run/secrets/kubernetes.io/serviceaccount

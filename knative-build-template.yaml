@@ -1,7 +1,7 @@
 apiVersion: build.knative.dev/v1alpha1
 kind: BuildTemplate
 metadata:
-  name: runtime-nodejs
+  name: nodejs-runtime
   annotations:
     origin: github.com/triggermesh/nodejs-runtime
 spec:
@@ -28,7 +28,7 @@ spec:
     args:
     - -c
     - |
-      cd /workspace/${DIRECTORY}/
+      cd /workspace/${DIRECTORY}
       echo "FROM projectriff/node-function-invoker:0.0.9-snapshot" > Dockerfile
       if [ -z "${FUNCTION_NAME}" ]; then
       cat <<EOF >> Dockerfile

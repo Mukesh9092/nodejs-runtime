@@ -105,7 +105,7 @@ In the meantime let's use `kubectl` and the step names from the build template
 (assuming the generated steps "creds-initializer" and "git-source" succeed).
 
 ```
-SELECTOR="build-name=runtime-nodejs-example-module-00001"
+SELECTOR="build-name=nodejs-runtime-example-module-00001"
 kubectl logs -l $SELECTOR -c build-step-dockerfile
 kubectl logs -l $SELECTOR -c build-step-export
 ```
@@ -119,30 +119,30 @@ kubectl get revision.serving.knative.dev
 ... and the generated deployment should have the image digest (which Serving looks up) set:
 
 ```bash
-kubectl get deploy/runtime-nodejs-example-module-00001-deployment -o=jsonpath='{.spec.template.spec.containers[0].image}{"\n"}'
+kubectl get deploy/nodejs-runtime-example-module-00001-deployment -o=jsonpath='{.spec.template.spec.containers[0].image}{"\n"}'
 ```
 
 ... and it will bing up a pod. Logs for that are found using:
 
 ```bash
-kubectl logs -l serving.knative.dev/configuration=runtime-nodejs-example-module -c user-container
+kubectl logs -l serving.knative.dev/configuration=nodejs-runtime-example-module -c user-container
 ```
 
-If no pod is brought up you might want to look for error messages in `kubectl get configuration.serving.knative.dev/runtime-nodejs-example-module -o yaml`.
-You might also want to look for pull errors etc in the generated deployment `kubectl describe deploy/runtime-nodejs-example-module-00001-deployment`.
+If no pod is brought up you might want to look for error messages in `kubectl get configuration.serving.knative.dev/nodejs-runtime-example-module -o yaml`.
+You might also want to look for pull errors etc in the generated deployment `kubectl describe deploy/nodejs-runtime-example-module-00001-deployment`.
 
 If a pod is running, create a route and use `describe` to see your public and local URL.
 
 ```bash
 kubectl apply -f route-r00001.yaml
-kubectl describe route.serving.knative.dev/runtime-nodejs-example-module
+kubectl describe route.serving.knative.dev/nodejs-runtime-example-module
 ```
 
 To test the route through the cluster's internal name.
 
 ```
 kubectl run -i -t knative-test-client --image=gcr.io/cloud-builders/curl --restart=Never --rm -- \
-  -H 'Host: runtime-nodejs-example-module.default.example.com' \
+  -H 'Host: nodejs-runtime-example-module.default.example.com' \
   -H 'Content-Type: text/plain' \
   -d 'Aguid this!' \
   --connect-timeout 3 --retry 10 -vSL -w '\n' \
@@ -173,7 +173,7 @@ Now we can test repeated calls:
 
 ```
 kubectl run -i -t knative-test-client --image=gcr.io/cloud-builders/curl --restart=Never --rm -- \
-  -H 'Host: runtime-nodejs-example-module.default.example.com' \
+  -H 'Host: nodejs-runtime-example-module.default.example.com' \
   -H 'Content-Type: text/plain' \
   -d 'Aguid this!' \
   -s -w '\n' \

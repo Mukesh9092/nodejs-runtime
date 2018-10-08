@@ -1,7 +1,7 @@
 apiVersion: serving.knative.dev/v1alpha1
 kind: Configuration
 metadata:
-  name: runtime-nodejs-example-module
+  name: nodejs-runtime-example-module
   namespace: default
 spec:
   build:
@@ -11,7 +11,7 @@ spec:
         url: https://github.com/triggermesh/nodejs-runtime.git
         revision: master
     template:
-      name: runtime-nodejs
+      name: nodejs-runtime
       # probably to be replaced with ClusterBuildTemplate: namespace: build-templates
       arguments:
       - name: IMAGE

@@ -16,7 +16,6 @@ apiVersion: serving.knative.dev/v1alpha1
 kind: Configuration
 metadata:
   name: nodejs-runtime-example-module
-  namespace: default
 spec:
   build:
     #serviceAccountName: knative-build

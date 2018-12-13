@@ -20,7 +20,7 @@ console.log("Hello from knative");
 
 var exports = module.exports = function(name) {
 
-    var str = "Hello" + name;
+    var str = "Hello " + name + "\n";
     return str;
 
 };

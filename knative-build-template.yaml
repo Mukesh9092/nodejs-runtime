@@ -40,7 +40,7 @@ spec:
     - -c
     - |
       cd /workspace/${DIRECTORY}
-      echo "FROM projectriff/node-function-invoker:0.0.9-snapshot" > Dockerfile
+      echo "FROM projectriff/node-function-invoker@sha256:ae7f87c524bb46dbfd7acc986b827f74d93d1301ea137f52734c7607295a919c" > Dockerfile
       if [ -z "${FUNCTION_NAME}" ]; then
       cat <<EOF >> Dockerfile
       ENV FUNCTION_URI=/functions/

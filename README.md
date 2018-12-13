@@ -78,11 +78,22 @@ First create the build template
 
 ```bash
 kubectl apply -f knative-build-template.yaml
+kubectl apply -f ./hello-world
 ```
 
-... and then the build
+You can now wait for the build and - if build passes - the generated deployment using `kubectl get pods -w`.
+
+When the deployment is 3/3 ready, use the DOMAIN shown by `kubectl get ksvc nodejs-runtime-hello` to access the service. This runtime requires POST, for example `curl -d 'Knative' nodejs-runtime-hello.default.example.com`.
+
+If your cluster lacks an external domain see next example for how to curl from inside the cluster.
+
+## Example of routes and builds
+
+The [example-module](./example-module) contains an example of a Node.js module with a dependency.
+It also, instead of a Service, has individual build yaml files and routes that you can edit.
 
 ```bash
+cd ./example-module
 kubectl apply -f build-r00001.yaml
 ```
 

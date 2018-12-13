@@ -21,6 +21,7 @@ console.log("Hello from knative");
 var exports = module.exports = function(name) {
 
     if (typeof name == 'object') {
+        // Riff's runtime gives you an object even if data is POSTed without Content-Type, but it's an odd object
         if (Object.keys(name).length === 1 && name[Object.keys(name)[0]] === "") {
             name = JSON.stringify(name) + ' (you might want to try POSTing with a Content-Type header)';
         } else {

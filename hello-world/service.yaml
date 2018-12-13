@@ -12,7 +12,7 @@ spec:
           source:
             git:
               url: https://github.com/triggermesh/nodejs-runtime/
-              revision: hello-world
+              revision: master
           template:
             name: nodejs-runtime
             arguments:

@@ -18,9 +18,7 @@
 
 console.log("Hello from knative");
 
-var exports = module.exports = {};
-
-exports.hello = function(name) {
+var exports = module.exports = function(name) {
 
     str = "Hello" + name;
     return str;

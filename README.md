@@ -74,14 +74,22 @@ using `package-lock.json` with [npm ci](https://docs.npmjs.com/cli/ci).
 
 ## Source-to-URL workflow using kubectl
 
-First create the build template
+The [hello-world](./hello-world/) folder contains a basic handler,
+with some understanding of how the runtime handles argument types.
+
+First create the build template:
 
 ```bash
 kubectl apply -f knative-build-template.yaml
-kubectl apply -f ./hello-world
 ```
 
-You can now wait for the build and - if build passes - the generated deployment using `kubectl get pods -w`.
+The start the service which builds itself:
+
+```bash
+kubectl apply -f ./hello-world/
+```
+
+You can now wait for the build and the subsequent deployment using `kubectl get pods -w`.
 
 When the deployment is 3/3 ready, use the DOMAIN shown by `kubectl get ksvc nodejs-runtime-hello` to access the service. This runtime requires POST, for example `curl -d 'Knative' nodejs-runtime-hello.default.example.com`.
 
@@ -89,7 +97,7 @@ If your cluster lacks an external domain see next example for how to curl from i
 
 ## Example of routes and builds
 
-The [example-module](./example-module) contains an example of a Node.js module with a dependency.
+The [example-module](./example-module/) contains an example of a Node.js module with a dependency.
 It also, instead of a Service, has individual build yaml files and routes that you can edit.
 
 ```bash

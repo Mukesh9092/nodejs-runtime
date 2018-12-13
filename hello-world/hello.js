@@ -20,9 +20,11 @@ console.log("Hello from knative");
 
 var exports = module.exports = function(name) {
 
-    if (typeof name !== 'string') {
+    if (typeof name == 'object') {
+        name = JSON.stringify(name) + ' (you might want to try POSTing with Content-Type: text/plain)'
+    } else if (typeof name !== 'string') {
         console.log('Got argument type', typeof name, ':', name);
-        name = JSON.stringify(name);
+        name = 'error: Unexpected argument type ' + (typeof name);
     }
 
     var str = "Hello " + name + "\n";

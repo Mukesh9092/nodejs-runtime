@@ -1,0 +1,28 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: nodejs-runtime-hello
+spec:
+  runLatest:
+    configuration:
+      build:
+        apiVersion: build.knative.dev/v1alpha1
+        kind: Build
+        spec:
+          source:
+            git:
+              url: https://github.com/triggermesh/nodejs-runtime/
+              revision: hello-world
+          template:
+            name: nodejs-runtime
+            arguments:
+            - name: IMAGE
+              value: knative.registry.svc.cluster.local/runtime-examples/nodejs-hello
+            - name: DIRECTORY
+              value: ./hello-world
+            - name: FUNCTION_NAME
+              value: hello.js
+      revisionTemplate:
+        spec:
+          container:
+            image: knative.registry.svc.cluster.local/runtime-examples/nodejs-hello
